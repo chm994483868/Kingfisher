@@ -26,9 +26,12 @@
 
 import Foundation
 
+// 用了一个结构体，里面里面定义 静态常量（计算属性）
 struct ImageLoader {
     static let sampleImageURLs: [URL] = {
         let prefix = "https://raw.githubusercontent.com/onevcat/Kingfisher-TestImages/master/DemoAppImage/Loading"
+        
+        // 这里用了一个 map 循环 10 次，拼接 prefix 构建一个长度是 10 的每个元素是一个完整的图片地址的数组
         return (1...10).map { URL(string: "\(prefix)/kingfisher-\($0).jpg")! }
     }()
     

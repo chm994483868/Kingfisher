@@ -47,6 +47,9 @@ extension NormalLoadingViewController {
         forItemAt indexPath: IndexPath)
     {
         // This will cancel all unfinished downloading task when the cell disappearing.
+        // 这将取消所有未完成的下载任务时，cell 消失。
+        
+        // cell 滚动出屏幕后，停止图片的下载任务
         (cell as! ImageCollectionViewCell).cellImageView.kf.cancelDownloadTask()
     }
     
