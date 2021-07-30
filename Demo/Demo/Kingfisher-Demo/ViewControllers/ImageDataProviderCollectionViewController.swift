@@ -49,7 +49,9 @@ class ImageDataProviderCollectionViewController: UICollectionViewController {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! ImageCollectionViewCell
     
         let pair = model[indexPath.row]
+        
         let provider = UserNameLetterIconImageProvider(userNameFirstLetter: pair.0, backgroundColor: pair.1)
+        
         KF.dataProvider(provider)
             .roundCorner(radius: .point(75))
             .set(to: cell.cellImageView)

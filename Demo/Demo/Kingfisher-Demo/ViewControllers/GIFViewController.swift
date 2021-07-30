@@ -30,6 +30,11 @@ import Kingfisher
 class GIFViewController: UIViewController {
 
     @IBOutlet weak var imageView: UIImageView!
+    
+    // AnimatedImageView 表示用于显示动画图像的`UIImageView` 的子类。
+    // 与在普通 `UIImageView`（一次加载所有帧）中显示动画图像不同，`AnimatedImageView` 仅尝试加载几帧（由`framePreloadCount` 定义）到减少内存使用。
+    // 它提供了内存使用和 CPU 时间之间的权衡。如果您在使用普通图像视图加载 GIF 数据时遇到内存问题，您可以试试这个类。
+    // Kingfisher 支持将 GIF 动画数据设置为开箱即用的 `UIImageView` 和 `AnimatedImageView`。所以在它们之间切换是相当容易的。
     @IBOutlet weak var animatedImageView: AnimatedImageView!
     
     override func viewDidLoad() {
@@ -37,6 +42,7 @@ class GIFViewController: UIViewController {
         let url = ImageLoader.gifImageURLs.last!
         
         // Should need to use different cache key to prevent data overwritten by each other.
+        // 需要使用不同的 cache key 来防止数据被对方覆盖。
         KF.url(url, cacheKey: "\(url)-imageview").set(to: imageView)
         
         KF.url(url, cacheKey: "\(url)-animated_imageview").set(to: animatedImageView)

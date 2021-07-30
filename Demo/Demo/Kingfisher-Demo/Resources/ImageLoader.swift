@@ -39,17 +39,20 @@ struct ImageLoader {
         let prefix = "https://raw.githubusercontent.com/onevcat/Kingfisher-TestImages/master/DemoAppImage/Orientation"
         return (1...16).map { URL(string: "\(prefix)/\($0).jpg")! }
     }()
-
+    
+    // 高分辨率图片 URL 数组
     static let highResolutionImageURLs: [URL] = {
         let prefix = "https://raw.githubusercontent.com/onevcat/Kingfisher-TestImages/master/DemoAppImage/HighResolution"
         return (1...20).map { URL(string: "\(prefix)/\($0).jpg")! }
     }()
     
+    // gif 图片 URL 数组
     static let gifImageURLs: [URL] = {
         let prefix = "https://raw.githubusercontent.com/onevcat/Kingfisher-TestImages/master/DemoAppImage/GIF"
         return (1...3).map { URL(string: "\(prefix)/\($0).gif")! }
     }()
 
+    // 
     static let progressiveImageURL: URL = {
         let prefix = "https://raw.githubusercontent.com/onevcat/Kingfisher-TestImages/master/DemoAppImage/Progressive"
         return URL(string: "\(prefix)/progressive.jpg")!

@@ -28,6 +28,7 @@ import UIKit
 import Kingfisher
 
 private let reuseIdentifier = "IndicatorCell"
+
 let gifData: Data = {
     let url = Bundle.main.url(forResource: "loader", withExtension: "gif")!
     return try! Data(contentsOf: url)
@@ -42,6 +43,7 @@ class IndicatorCollectionViewController: UICollectionViewController {
         func startAnimatingView() {
             view.isHidden = false
             timer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true) { _ in
+                
                 UIView.animate(withDuration: 0.2, animations: {
                     if self.view.backgroundColor == .red {
                         self.view.backgroundColor = .orange
@@ -73,11 +75,13 @@ class IndicatorCollectionViewController: UICollectionViewController {
         "GIF Image",
         "Custom"
     ]
+    
     var selectedIndicatorIndex: Int = 1 {
         didSet {
             collectionView.reloadData()
         }
     }
+    
     var selectedIndicatorType: IndicatorType {
         switch selectedIndicatorIndex {
         case 0: return .none
@@ -100,20 +104,25 @@ class IndicatorCollectionViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! ImageCollectionViewCell
         cell.cellImageView.kf.indicatorType = selectedIndicatorType
+        
         KF.url(ImageLoader.sampleImageURLs[indexPath.row])
             .memoryCacheExpiration(.expired)
             .diskCacheExpiration(.expired)
             .set(to: cell.cellImageView)
+        
         return cell
     }
     
     override func alertPopup(_ sender: Any) -> UIAlertController {
         let alert = super.alertPopup(sender)
+        
+        // 添加 indicators 数组中的选项
         for item in indicators.enumerated() {
             alert.addAction(UIAlertAction.init(title: item.element, style: .default) { _ in
                 self.selectedIndicatorIndex = item.offset
             })
         }
+        
         return alert
     }
 }

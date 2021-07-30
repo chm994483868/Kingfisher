@@ -52,6 +52,9 @@ class InfinityCollectionViewController: UICollectionViewController {
         let url = urls[indexPath.row % urls.count]
 
         // Mark each row as a new image.
+        
+        // ImageResource 是 `downloadURL` 和 `cacheKey` 的简单组合。
+        // 当传递给图像视图设置方法时，Kingfisher 会尝试从 `downloadURL` 下载目标图像，然后以 `cacheKey` 作为 key 存储在缓存中。
         let resource = ImageResource(downloadURL: url, cacheKey: "key-\(indexPath.row)")
         KF.resource(resource).set(to: cell.cellImageView)
 

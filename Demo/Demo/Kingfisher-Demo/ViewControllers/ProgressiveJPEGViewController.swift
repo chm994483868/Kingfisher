@@ -35,6 +35,11 @@ class ProgressiveJPEGViewController: UIViewController {
     private var isBlur = true
     private var isFastestScan = true
     
+    // RoundCornerImageProcessor 是用于制作圆角图像的处理器。
+    // macOS 仅支持基于 CG 的图像，如果传入非 CG 图像，则处理器将不执行任何操作。
+    // - 注意：输入图像将在移除圆角像素的情况下呈现。如果图像本身不包含 alpha 通道（例如，JPEG 图像），则处理后的图像将在内存中包含 alpha 通道以正确显示。
+    //        但是，当缓存到磁盘时，Kingfisher 默认尊重原始图像格式。这意味着这些图像的 alpha 通道将被删除。当您再次从缓存中加载处理后的图像时，您将失去透明角。
+    // 在这种情况下，您可以使用 `FormatIndicatedCacheSerializer.png` 强制 Kingfisher 将图像序列化为 PNG 格式。
     private let processor = RoundCornerImageProcessor(cornerRadius: 30)
     
     override func viewDidLoad() {

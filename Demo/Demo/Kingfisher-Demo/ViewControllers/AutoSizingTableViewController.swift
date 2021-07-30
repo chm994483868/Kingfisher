@@ -30,6 +30,7 @@ import Kingfisher
 // Cell with an image view (loading by Kingfisher) with fix width and dynamic height which keeps the image with aspect ratio.
 class AutoSizingTableViewCell: UITableViewCell {
     
+    // 宽度限制为 200，高度根据图片原始比例计算
     static let p = ResizingImageProcessor(referenceSize: .init(width: 200, height: CGFloat.infinity), mode: .aspectFit)
     
     @IBOutlet weak var leadingImageView: UIImageView!
@@ -39,7 +40,10 @@ class AutoSizingTableViewCell: UITableViewCell {
     var updateLayout: (() -> Void)?
     
     func set(with url: URL) {
+        
         leadingImageView.kf.setImage(with: url, options: [.processor(AutoSizingTableViewCell.p), .transition(.fade(1))]) { r in
+
+            // 处理完成的回调
             if case .success(let value) = r {
                 self.sizeLabel.text = "\(value.image.size.width) x \(value.image.size.height)"
                 self.updateLayout?()
@@ -52,6 +56,8 @@ class AutoSizingTableViewCell: UITableViewCell {
 
 class AutoSizingTableViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
+    
+    // 699 个 cell
     var data: [Int] = Array(1..<700)
     
     override func viewDidLoad() {
@@ -70,16 +76,21 @@ class AutoSizingTableViewController: UIViewController {
         
         // class func setAnimationsEnabled(_ enabled: Bool)
         
+        // 关闭 UIView 动画
         UIView.setAnimationsEnabled(false)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        
+        // 需要再打开 UIView 动画
         UIView.setAnimationsEnabled(true)
     }
 }
 
 extension AutoSizingTableViewController: UITableViewDataSource {
+    
+    // 更新布局
     private func updateLayout() {
         tableView.beginUpdates()
         tableView.endUpdates()
@@ -91,10 +102,15 @@ extension AutoSizingTableViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AutoSizingTableViewCell", for: indexPath) as! AutoSizingTableViewCell
+        
+        // https://github.com/onevcat/Flower-Data-Set/raw/master/rose/rose-\(index).jpg
         cell.set(with: ImageLoader.roseImage(index: data[indexPath.row]))
+        
+        // 回调 tableView 更新布局
         cell.updateLayout = { [weak self] in
             self?.updateLayout()
         }
+        
         return cell
     }
     

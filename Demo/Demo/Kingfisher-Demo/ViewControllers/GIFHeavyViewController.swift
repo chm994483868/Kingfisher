@@ -27,7 +27,10 @@
 import UIKit
 import Kingfisher
 
+// 进入该控制器内存会上升 100 MB
 class GIFHeavyViewController: UIViewController {
+    
+    // 使用 UIStackView 布局
     let stackView = UIStackView()
     let imageView_1 = AnimatedImageView()
     let imageView_2 = AnimatedImageView()

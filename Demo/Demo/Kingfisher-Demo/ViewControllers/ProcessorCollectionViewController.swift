@@ -39,6 +39,7 @@ class ProcessorCollectionViewController: UICollectionViewController {
     
 //    .systemBlue.withAlphaComponent(0.7)
     
+    // |> 是自定义操作符
     var processors: [(ImageProcessor, String)] = [
         (DefaultImageProcessor.default, "Default"),
         (ResizingImageProcessor(referenceSize: CGSize(width: 50, height: 50)), "Resizing"),
@@ -85,17 +86,26 @@ class ProcessorCollectionViewController: UICollectionViewController {
         return cell
     }
     
+    // 重写 alertPopup 函数，添加一个 Processor 选项
     override func alertPopup(_ sender: Any) -> UIAlertController {
         let alert = super.alertPopup(sender)
+        
+        // 添加一个 Processor 选项，选中时再弹出一个 alert 显示 processors 数组中列出的一系列处理选项
         alert.addAction(UIAlertAction(title: "Processor", style: .default, handler: { _ in
+            
             let alert = UIAlertController(title: "Processor", message: nil, preferredStyle: .actionSheet)
+            
+            // 选中某个选项时直接对 self.currentProcessor 赋值，然后执行 currentProcessor 属性的 didSet 函数，进行 collectionView 的刷新
             for item in self.processors {
                 alert.addAction(UIAlertAction(title: item.1, style: .default) { _ in self.currentProcessor = item.0 })
             }
+            
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
             alert.popoverPresentationController?.barButtonItem = sender as? UIBarButtonItem
             self.present(alert, animated: true)
+            
         }))
+        
         return alert
     }
 }
